@@ -118,23 +118,24 @@ body = dbc.Container([
                 id='bmi-gauge',
                 size=400,
                 min=0,
-                max=50,
+                max=24,
                 showCurrentValue=True,
                 units="BMI",
-                color={"gradient": False, "ranges": {"darkblue": [0, 16],
-                                                     "lightblue": [16, 17],
-                                                     "green": [17, 18.5],
-                                                     "lightgreen": [18.5, 25],
-                                                     "yellow": [25, 30],
-                                                     "orange": [30, 35],
-                                                     "red": [35, 40],
-                                                     "purple": [40, 50]
-                                                     }
+                color={"ranges": {"darkblue": [0, 6],
+                                  "green": [6, 12],
+                                  "orange": [12, 17],
+                                  "red": [17, 24],
+
+                                  }
                        },
                 label="Your BMI",
-                scale={'start': 0, 'interval': 1, 'labelInterval': 5},
-
-                value=25
+                scale={'custom': {0: 'underweight',
+                                  6: 'optimal weight',
+                                  12: 'overweight',
+                                  17: 'obese',
+                                  24: 'fat ass'},
+                       },
+                value=25-16
             )
 
         ])
@@ -142,6 +143,7 @@ body = dbc.Container([
 ],
     fluid=True
 )
+
 
 # dash constructor
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB], assets_folder='assets', include_assets_files=True)
