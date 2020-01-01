@@ -63,3 +63,4 @@ app.layout = html.Div([navbar, body, html.Div(style={'margin-top': 20})])
 if __name__ == '__main__':
     app.run_server()
 
+print()
