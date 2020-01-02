@@ -113,13 +113,13 @@ body = dbc.Container([
     ],
         style={"padding-bottom": 30}
     ),
-    dbc.Row([
-        dbc.Col(
-            dbc.Button("Calculate BMI", color="primary", size="lg")
-        )],
-        style={"margin": "auto", "padding-bottom": 30},
-        className="text-center"
-    ),
+    # dbc.Row([
+    #     dbc.Col(
+    #         dbc.Button("Calculate BMI", color="primary", size="lg")
+    #     )],
+    #     style={"margin": "auto", "padding-bottom": 30},
+    #     className="text-center"
+    #   ),
     dbc.Row([
         dbc.Col(
             dbc.Label('Your BMI is: ', id='bmi-label', style={'font-weight': 'bold', 'font-size': 30}))
@@ -181,7 +181,7 @@ def update_height(height_value):
 
 
 @app.callback(
-    Output(component_id='bmi-label', component_property='children'),
+    Output('bmi-label', 'children'),
     [Input('weight-slider', 'value'), Input('height-slider', 'value')])
 def update_label(w_value, h_value):
     w_value = w_value*10000
@@ -189,9 +189,9 @@ def update_label(w_value, h_value):
 
 
 @app.callback(
-    dash.dependencies.Output('bmi-gauge', 'value'),
-    [dash.dependencies.Input('weight-slider', 'value'),
-     dash.dependencies.Input('height-slider', 'value')]
+    Output('bmi-gauge', 'value'),
+    [Input('bmi_weight', 'value'),
+     Input('bmi_height', 'value')]
 )
 def update_output(wval, hval):
     wval = wval * 10000
