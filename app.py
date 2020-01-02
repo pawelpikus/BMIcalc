@@ -49,7 +49,8 @@ body = dbc.Container([
                     max=180,
                     step=0.5,
                     value=90,
-                    marks={40: "40kg", 180: "180kg"}
+                    marks={40: "40kg", 180: "180kg"},
+                    updatemode='drag'
                 )
 
             ],
@@ -61,6 +62,9 @@ body = dbc.Container([
                 dcc.Input(
                     id="bmi_weight",
                     type="number",
+                    min=40,
+                    max=180,
+                    step=0.5,
                     placeholder="Enter weight in [kg]")
             ],
             md=4
@@ -84,7 +88,8 @@ body = dbc.Container([
                     max=220,
                     step=1,
                     value=180,
-                    marks={100: "100cm", 220: "220cm"}
+                    marks={100: "100cm", 220: "220cm"},
+                    updatemode='drag'
                 )
 
             ],
@@ -95,6 +100,10 @@ body = dbc.Container([
             [
                 dcc.Input(
                     id="bmi_height",
+                    size=5,
+                    min=100,
+                    max=220,
+                    step=0.5,
                     type="number",
                     placeholder="Enter height in [cm]")
             ],
@@ -111,6 +120,11 @@ body = dbc.Container([
         style={"margin": "auto", "padding-bottom": 30},
         className="text-center"
     ),
+    dbc.Row([
+        dbc.Col(
+            dbc.Label('Your BMI is: ', id='bmi-label', style={'font-weight': 'bold', 'font-size': 30}))
+    ],
+        className="text-center"),
 
     dbc.Row([
         dbc.Col([
@@ -119,7 +133,7 @@ body = dbc.Container([
                 size=400,
                 min=0,
                 max=24,
-                showCurrentValue=True,
+
                 units="BMI",
                 color={"ranges": {"darkblue": [0, 6],
                                   "green": [6, 12],
@@ -128,27 +142,62 @@ body = dbc.Container([
 
                                   }
                        },
-                label="Your BMI",
+
                 scale={'custom': {0: 'underweight',
                                   6: 'optimal weight',
                                   12: 'overweight',
                                   17: 'obese',
                                   24: 'fat ass'},
                        },
-                value=25-16
+                value=0
             )
 
         ])
-    ])
+    ],
+        className="text-center"),
+
 ],
     fluid=True
 )
-
 
 # dash constructor
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB], assets_folder='assets', include_assets_files=True)
 # dash layout
 app.layout = html.Div([navbar, body])
+
+
+@app.callback(
+    Output(component_id='bmi_weight', component_property='value'),
+    [Input(component_id='weight-slider', component_property='value')])
+def update_weight(weight_value):
+    return weight_value
+
+
+@app.callback(
+    Output(component_id='bmi_height', component_property='value'),
+    [Input(component_id='height-slider', component_property='value')])
+def update_height(height_value):
+    return height_value
+
+
+@app.callback(
+    Output(component_id='bmi-label', component_property='children'),
+    [Input('weight-slider', 'value'), Input('height-slider', 'value')])
+def update_label(w_value, h_value):
+    w_value = w_value*10000
+    return "Your BMI is: {:.2f}".format(w_value/(h_value*h_value))
+
+
+@app.callback(
+    dash.dependencies.Output('bmi-gauge', 'value'),
+    [dash.dependencies.Input('weight-slider', 'value'),
+     dash.dependencies.Input('height-slider', 'value')]
+)
+def update_output(wval, hval):
+    wval = wval * 10000
+    return (wval/(hval*hval))-16
+
+
 # running server
 if __name__ == '__main__':
     app.run_server()
