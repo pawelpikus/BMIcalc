@@ -5,6 +5,7 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
+
 navbar = dbc.NavbarSimple(
     children=[
         dbc.DropdownMenu(
@@ -137,8 +138,9 @@ body = dbc.Container([
                 scale={'custom': {0: 'underweight',
                                   2.5: 'optimal weight',
                                   8.5: 'overweight',
-                                  14: 'obese',
-                                  24: 'ridiculously fat'},
+                                  14: 'obese I',
+                                  19: 'obese II',
+                                  24: 'obese III'},
                        },
                 value=0
             )
