@@ -42,169 +42,103 @@ body = dbc.Container([
                         options=[
                             {'label': 'Male', 'value': 'M'},
                             {'label': 'Female', 'value': 'F'}],
-                        value='M'),
+                        value='M',
+                        labelStyle={'padding-right': 15},
+                        style={'margin': 20}),
                     dbc.Label("Set patient's weight:", html_for="weight-slider"),
                     dcc.Slider(
                         id="weight-slider",
                         min=40,
                         max=180,
                         step=0.5,
-                        value=90,
+                        value=68,
                         marks={40: "40kg", 180: "180kg"},
                         updatemode='drag'
+
                     ),
-                    dbc.Label("Set patient's weight:", html_for="height-slider"),
+                    dbc.Label("Set patient's height:", html_for="height-slider", style={'padding-top': 10}),
                     dcc.Slider(
-                        id="weight-slider",
+                        id="height-slider",
+                        min=100,
+                        max=220,
+                        step=0.5,
+                        value=178,
+                        marks={100: "100cm", 220: "220cm"},
+                        updatemode='drag'
+
+                    )
+
+                ],
+            ),
+            md=4
+
+        ),
+        dbc.Col([
+            dbc.FormGroup([
+                dcc.Dropdown(
+                    id='bmi_dropdown',
+                    options=(
+                        {'label': '19 - 24 years old', 'value': '19-24'},
+                        {'label': '25 - 34 years old', 'value': '25-34'},
+                        {'label': '35 - 44 years old', 'value': '35-44'},
+                        {'label': '45 - 54 years old', 'value': '45-54'},
+                        {'label': '55 - 64 years old', 'value': '55-64'},
+                        {'label': 'over 64 years old', 'value': 'over64'}
+                    ),
+                    placeholder="Select patient's age",
+                    style={'margin': 20}
+                ),
+                html.Div(
+                    dcc.Input(
+                        id="bmi_weight",
+                        type="number",
                         min=40,
                         max=180,
                         step=0.5,
-                        value=90,
-                        marks={40: "40kg", 180: "180kg"},
-                        updatemode='drag'
-                    )
+                        placeholder="Enter weight in [kg]"),
+                    style={'margin': 40}),
+                html.Div(
+                    dcc.Input(
+                        id="bmi_height",
+                        size=5,
+                        min=100,
+                        max=220,
+                        step=0.5,
+                        type="number",
+                        placeholder="Enter height in [cm]"),
+                    style={'margin': 40})
+            ])],
 
-                ]))]),
-
-#             ),
-#
-#         ],
-#
-#
-#         ),
-#
-# dbc.Col([
-#             dcc.Dropdown(
-#                 options=(
-#                     {'label': '19 - 24 years old', 'value': '19-24'},
-#                     {'label': '25 - 34 years old', 'value': '25-34'},
-#                     {'label': '35 - 44 years old', 'value': '35-44'},
-#                     {'label': '45 - 54 years old', 'value': '45-54'},
-#                     {'label': '55 - 64 years old', 'value': '55-64'},
-#                     {'label': 'over 64 years old', 'value': 'over64'}
-#                 ),
-#                 placeholder="Select patient's age"
-#             )
-#         ],
-#             style={'margin': 'auto', 'padding-bottom': 30},
-#             md=3,
-#
-#         )
-#
-#     ]),
-#     dbc.Row([
-#         dbc.Col(
-#             html.Div("Set patient's weight:"),
-#             width={"size": 6, "offset": 2}
-#         )
-#     ]),
-#     dbc.Row([
-#         dbc.Col(
-#             [
-#                 dcc.Slider(
-#                     id="weight-slider",
-#                     min=40,
-#                     max=180,
-#                     step=0.5,
-#                     value=90,
-#                     marks={40: "40kg", 180: "180kg"},
-#                     updatemode='drag'
-#                 )
-#
-#             ],
-#             md=4,
-#             style={"margin": "auto"}
-#         ),
-#         dbc.Col(
-#             [
-#                 dcc.Input(
-#                     id="bmi_weight",
-#                     type="number",
-#                     min=40,
-#                     max=180,
-#                     step=0.5,
-#                     placeholder="Enter weight in [kg]")
-#             ],
-#             md=4
-#
-#         )
-#     ],
-#         style={"padding-bottom": 60}
-#     ),
-#     dbc.Row([
-#         dbc.Col(
-#             html.Div("Set patient's height:"),
-#             width={"size": 6, "offset": 2}
-#         )
-#     ]),
-#     dbc.Row([
-#         dbc.Col(
-#             [
-#                 dcc.Slider(
-#                     id="height-slider",
-#                     min=100,
-#                     max=220,
-#                     step=1,
-#                     value=180,
-#                     marks={100: "100cm", 220: "220cm"},
-#                     updatemode='drag'
-#                 )
-#
-#             ],
-#             md=4,
-#             style={"margin": "auto", "padding-bottom": 60}
-#         ),
-#         dbc.Col(
-#             [
-#                 dcc.Input(
-#                     id="bmi_height",
-#                     size=5,
-#                     min=100,
-#                     max=220,
-#                     step=0.5,
-#                     type="number",
-#                     placeholder="Enter height in [cm]")
-#             ],
-#             md=4
-#
-#         )
-#     ],
-#         style={"padding-bottom": 30}
-#     ),
-#     # dbc.Row([
-#     #     dbc.Col(
-#     #         dbc.Button("Calculate BMI", color="primary", size="lg")
-#     #     )],
-#     #     style={"margin": "auto", "padding-bottom": 30},
-#     #     className="text-center"
-#     #   ),
-#     dbc.Row([
-#         dbc.Col(
-#             dbc.Label("Patient's BMI is: ", id='bmi-label', style={'font-weight': 'bold', 'font-size': 30}))
-#     ],
-#         className="text-center"),
+            md=3)
+    ],
+        justify='center'),
+    dbc.Row([
+        dbc.Col(
+            dbc.Label("Patient's BMI is: ", id='bmi-label', style={'font-weight': 'bold', 'font-size': 30}))
+    ],
+        className="text-center"),
 
     dbc.Row([
         dbc.Col([
             daq.Gauge(
                 id='bmi-gauge',
-                size=400,
+                size=300,
                 min=0,
                 max=24,
 
                 units="BMI",
-                color={"ranges": {"darkblue": [0, 6],
-                                  "green": [6, 12],
-                                  "orange": [12, 17],
-                                  "red": [17, 24],
+                color={"ranges": {"darkblue": [0, 2.5],
+                                  "green": [2.5, 8.5],
+                                  "orange": [8.5, 14],
+                                  "red": [14, 24],
 
                                   }
                        },
 
                 scale={'custom': {0: 'underweight',
-                                  6: 'optimal weight',
-                                  12: 'overweight',
-                                  17: 'obese',
+                                  2.5: 'optimal weight',
+                                  8.5: 'overweight',
+                                  14: 'obese',
                                   24: 'ridiculously fat'},
                        },
                 value=0
@@ -214,6 +148,7 @@ body = dbc.Container([
     ],
         className="text-center")
 ])
+
 #
 # ],
 #
@@ -225,36 +160,48 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB], assets_fol
 app.layout = html.Div([navbar, body])
 
 
-# @app.callback(
-#     Output('bmi_weight', 'value'),
-#     [Input('weight-slider', 'value')])
-# def update_weight(weight_value):
-#     return weight_value
-#
-#
-# @app.callback(
-#     Output('bmi_height', 'value'),
-#     [Input('height-slider', 'value')])
-# def update_height(height_value):
-#     return height_value
-#
-#
-# @app.callback(
-#     Output('bmi-label', 'children'),
-#     [Input('bmi_weight', 'value'), Input('bmi_height', 'value')])
-# def update_label(w_value, h_value):
-#     w_value = w_value * 10000
-#     return "Your BMI is: {:.2f}".format(w_value / (h_value * h_value))
-#
-#
-# @app.callback(
-#     Output('bmi-gauge', 'value'),
-#     [Input('bmi_weight', 'value'),
-#      Input('bmi_height', 'value')]
-# )
-# def update_output(wval, hval):
-#     wval = wval * 10000
-#     return (wval / (hval * hval)) - 16
+@app.callback(
+    Output('bmi_weight', 'value'),
+    [Input('weight-slider', 'value')])
+def update_weight(weight_value):
+    return weight_value
+
+
+@app.callback(
+    Output('bmi_height', 'value'),
+    [Input('height-slider', 'value')])
+def update_height(height_value):
+    return height_value
+
+
+@app.callback(
+    Output('bmi-label', 'children'),
+    [Input('bmi_weight', 'value'), Input('bmi_height', 'value')])
+def update_label(w_value, h_value):
+    w_value = w_value * 10000
+    return "Patient's BMI is: {}".format(int(w_value / (h_value * h_value)))
+
+
+@app.callback(
+    Output('bmi-gauge', 'value'),
+    [Input('bmi_weight', 'value'),
+     Input('bmi_height', 'value'),
+     Input('bmi_dropdown', 'value')])
+def update_output(wval, hval, age):
+    wval = wval * 10000
+    bmi = (wval / (hval * hval))
+    if age == '19-24':
+        return bmi - 16.6
+    elif age == '25-34':
+        return bmi - 17.4
+    elif age == '35-44':
+        return bmi - 18.58
+    elif age == '45-54':
+        return bmi - 19.5
+    elif age == '55-64':
+        return bmi - 20.5
+    elif age == 'over64':
+        return bmi - 21.5
 
 
 # running server
