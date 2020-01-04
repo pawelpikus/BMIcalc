@@ -38,13 +38,6 @@ body = dbc.Container([
         dbc.Col(
             dbc.FormGroup(
                 [
-                    dcc.RadioItems(
-                        options=[
-                            {'label': 'Male', 'value': 'M'},
-                            {'label': 'Female', 'value': 'F'}],
-                        value='M',
-                        labelStyle={'padding-right': 15},
-                        style={'margin': 20}),
                     dbc.Label("Set patient's weight:", html_for="weight-slider"),
                     dcc.Slider(
                         id="weight-slider",
@@ -70,35 +63,22 @@ body = dbc.Container([
 
                 ],
             ),
-            md=4
+            width=6
 
         ),
         dbc.Col([
             dbc.FormGroup([
-                dcc.Dropdown(
-                    id='bmi_dropdown',
-                    options=(
-                        {'label': '19 - 24 years old', 'value': '19-24'},
-                        {'label': '25 - 34 years old', 'value': '25-34'},
-                        {'label': '35 - 44 years old', 'value': '35-44'},
-                        {'label': '45 - 54 years old', 'value': '45-54'},
-                        {'label': '55 - 64 years old', 'value': '55-64'},
-                        {'label': 'over 64 years old', 'value': 'over64'}
-                    ),
-                    placeholder="Select patient's age",
-                    style={'margin': 20}
-                ),
                 html.Div(
-                    dcc.Input(
+                    dbc.Input(
                         id="bmi_weight",
                         type="number",
                         min=40,
                         max=180,
                         step=0.5,
                         placeholder="Enter weight in [kg]"),
-                    style={'margin': 40}),
+                    style={'margin': 35}),
                 html.Div(
-                    dcc.Input(
+                    dbc.Input(
                         id="bmi_height",
                         size=5,
                         min=100,
@@ -106,10 +86,10 @@ body = dbc.Container([
                         step=0.5,
                         type="number",
                         placeholder="Enter height in [cm]"),
-                    style={'margin': 40})
+                    style={'margin': 35})
             ])],
 
-            md=3)
+            width=4)
     ],
         justify='center'),
     dbc.Row([
@@ -117,6 +97,25 @@ body = dbc.Container([
             dbc.Label("Patient's BMI is: ", id='bmi-label', style={'font-weight': 'bold', 'font-size': 30}))
     ],
         className="text-center"),
+    dbc.Row([
+        dbc.Col(
+            dcc.Dropdown(
+                id='bmi_dropdown',
+                options=(
+                    {'label': '19 - 24 years old', 'value': '19-24'},
+                    {'label': '25 - 34 years old', 'value': '25-34'},
+                    {'label': '35 - 44 years old', 'value': '35-44'},
+                    {'label': '45 - 54 years old', 'value': '45-54'},
+                    {'label': '55 - 64 years old', 'value': '55-64'},
+                    {'label': 'over 64 years old', 'value': 'over64'}
+                ),
+                placeholder="Select patient's age",
+                style={'margin-bottom': 20, 'margin-top': 20},
+
+            ),
+            width=5)
+
+    ], justify='center'),
 
     dbc.Row([
         dbc.Col([
@@ -147,12 +146,8 @@ body = dbc.Container([
         ])
     ],
         className="text-center")
-])
-
-#
-# ],
-#
-# )
+], style={'box-shadow': '15px 17px 34px -1px rgba(189,183,189,1)',
+          'max-width': '800px'})
 
 # dash constructor
 app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB], assets_folder='assets', include_assets_files=True)
