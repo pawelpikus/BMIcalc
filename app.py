@@ -5,7 +5,6 @@ import dash_core_components as dcc
 import dash_html_components as html
 from dash.dependencies import Input, Output
 
-
 navbar = dbc.NavbarSimple(
     children=[
         dbc.DropdownMenu(
@@ -13,146 +12,151 @@ navbar = dbc.NavbarSimple(
             in_navbar=True,
             label="Menu",
             children=[
-                dbc.DropdownMenuItem("Entry 1"),
-                dbc.DropdownMenuItem("Entry 2"),
-                dbc.DropdownMenuItem(divider=True),
-                dbc.DropdownMenuItem("Entry 3")
+                dbc.DropdownMenuItem("BMI - Wikipedia PL", href="https://pl.wikipedia.org/wiki/Wska%C5%BAnik_masy_cia%C5%82a"),
+                dbc.DropdownMenuItem("BMI - Wikipedia ENG", href='https://en.wikipedia.org/wiki/Body_mass_index'),
+
             ]),
-        dbc.NavItem(dbc.NavLink("Author", href="#"))
+        dbc.NavItem(dbc.NavLink("Author", href="https://github.com/pawelpikus/BMIcalc"))
     ],
     brand="BMI Calc",
-    brand_href="#",
-    sticky="top"
+    sticky="top",
+    color='primary',
+    dark=True
+
 )
 body = dbc.Container([
-    dbc.Row([
-        html.H1("BMI Calculator", style={"font-weight": "bold",
-                                         "padding-top": 50,
-                                         "margin": "auto"}),
+    html.Div([
+        html.Div([
+            dbc.Row([
+                html.H1("BMI Calculator", style={"font-weight": "bold",
+                                                 "padding-top": 50,
+                                                 "margin": "auto"}),
 
-    ]),
-    dbc.Row([
-        html.Div("Calculating patient's Body Mass Index",
-                 style={"margin": "auto", "padding-bottom": 60})
-    ]),
-    dbc.Row([
-        dbc.Col(
-            dbc.FormGroup(
-                [
-                    dbc.Label("Set patient's weight:", html_for="weight-slider"),
-                    dcc.Slider(
-                        id="weight-slider",
-                        min=40,
-                        max=180,
-                        step=0.5,
-                        value=68,
-                        marks={40: "40kg", 180: "180kg"},
-                        updatemode='drag'
+            ]),
+            dbc.Row([
+                html.Div("Calculating patient's Body Mass Index",
+                         style={"margin": "auto", "padding-bottom": 60})
+            ]),
+            dbc.Row([
+                dbc.Col(
+                    dbc.FormGroup(
+                        [
+                            dbc.Label("Set patient's weight:", html_for="weight-slider"),
+                            dcc.Slider(
+                                id="weight-slider",
+                                min=40,
+                                max=180,
+                                step=0.5,
+                                value=68,
+                                marks={40: "40kg", 180: "180kg"},
+                                updatemode='drag'
+
+                            ),
+                            dbc.Label("Set patient's height:", html_for="height-slider", style={'padding-top': 10}),
+                            dcc.Slider(
+                                id="height-slider",
+                                min=100,
+                                max=220,
+                                step=0.5,
+                                value=178,
+                                marks={100: "100cm", 220: "220cm"},
+                                updatemode='drag'
+
+                            )
+
+                        ],
+                    ),
+                    width=6
+
+                ),
+                dbc.Col([
+                    dbc.FormGroup([
+                        html.Div(
+                            dbc.Input(
+                                id="bmi_weight",
+                                type="number",
+                                min=40,
+                                max=180,
+                                step=0.5,
+                                placeholder="Enter weight in [kg]"),
+                            style={'margin': 35}),
+                        html.Div(
+                            dbc.Input(
+                                id="bmi_height",
+                                size=5,
+                                min=100,
+                                max=220,
+                                step=0.5,
+                                type="number",
+                                placeholder="Enter height in [cm]"),
+                            style={'margin': 35})
+                    ])],
+
+                    width=4)
+            ],
+                justify='center'),
+            dbc.Row([
+                dbc.Col(
+                    dbc.Label("Patient's BMI is: ", id='bmi-label', style={'font-weight': 'bold', 'font-size': 30}))
+            ],
+                className="text-center"),
+            dbc.Row([
+                dbc.Col(
+                    dcc.Dropdown(
+                        id='bmi_dropdown',
+                        options=(
+                            {'label': '19 - 24 years old', 'value': '19-24'},
+                            {'label': '25 - 34 years old', 'value': '25-34'},
+                            {'label': '35 - 44 years old', 'value': '35-44'},
+                            {'label': '45 - 54 years old', 'value': '45-54'},
+                            {'label': '55 - 64 years old', 'value': '55-64'},
+                            {'label': 'over 64 years old', 'value': 'over64'}
+                        ),
+                        placeholder="Select patient's age",
+                        style={'margin-bottom': 20, 'margin-top': 20},
 
                     ),
-                    dbc.Label("Set patient's height:", html_for="height-slider", style={'padding-top': 10}),
-                    dcc.Slider(
-                        id="height-slider",
-                        min=100,
-                        max=220,
-                        step=0.5,
-                        value=178,
-                        marks={100: "100cm", 220: "220cm"},
-                        updatemode='drag'
+                    width=5)
 
+            ], justify='center'),
+
+            dbc.Row([
+                dbc.Col([
+                    daq.Gauge(
+                        id='bmi-gauge',
+                        size=300,
+                        min=0,
+                        max=24,
+
+                        units="BMI",
+                        color={"ranges": {"darkblue": [0, 2.5],
+                                          "green": [2.5, 8.5],
+                                          "orange": [8.5, 14],
+                                          "red": [14, 24],
+
+                                          }
+                               },
+
+                        scale={'custom': {0: 'underweight',
+                                          2.5: 'optimal weight',
+                                          8.5: 'overweight',
+                                          14: 'obese I',
+                                          19: 'obese II',
+                                          24: 'obese III'},
+                               },
+                        value=0
                     )
 
-                ],
-            ),
-            width=6
+                ])
+            ],
+                className="text-center")],
+            className="card w-75 border-0 mx-auto shadow p-3 mb-5 bg-white rounded")],
+        className="card-body p-5")
+])
 
-        ),
-        dbc.Col([
-            dbc.FormGroup([
-                html.Div(
-                    dbc.Input(
-                        id="bmi_weight",
-                        type="number",
-                        min=40,
-                        max=180,
-                        step=0.5,
-                        placeholder="Enter weight in [kg]"),
-                    style={'margin': 35}),
-                html.Div(
-                    dbc.Input(
-                        id="bmi_height",
-                        size=5,
-                        min=100,
-                        max=220,
-                        step=0.5,
-                        type="number",
-                        placeholder="Enter height in [cm]"),
-                    style={'margin': 35})
-            ])],
-
-            width=4)
-    ],
-        justify='center'),
-    dbc.Row([
-        dbc.Col(
-            dbc.Label("Patient's BMI is: ", id='bmi-label', style={'font-weight': 'bold', 'font-size': 30}))
-    ],
-        className="text-center"),
-    dbc.Row([
-        dbc.Col(
-            dcc.Dropdown(
-                id='bmi_dropdown',
-                options=(
-                    {'label': '19 - 24 years old', 'value': '19-24'},
-                    {'label': '25 - 34 years old', 'value': '25-34'},
-                    {'label': '35 - 44 years old', 'value': '35-44'},
-                    {'label': '45 - 54 years old', 'value': '45-54'},
-                    {'label': '55 - 64 years old', 'value': '55-64'},
-                    {'label': 'over 64 years old', 'value': 'over64'}
-                ),
-                placeholder="Select patient's age",
-                style={'margin-bottom': 20, 'margin-top': 20},
-
-            ),
-            width=5)
-
-    ], justify='center'),
-
-    dbc.Row([
-        dbc.Col([
-            daq.Gauge(
-                id='bmi-gauge',
-                size=300,
-                min=0,
-                max=24,
-
-                units="BMI",
-                color={"ranges": {"darkblue": [0, 2.5],
-                                  "green": [2.5, 8.5],
-                                  "orange": [8.5, 14],
-                                  "red": [14, 24],
-
-                                  }
-                       },
-
-                scale={'custom': {0: 'underweight',
-                                  2.5: 'optimal weight',
-                                  8.5: 'overweight',
-                                  14: 'obese I',
-                                  19: 'obese II',
-                                  24: 'obese III'},
-                       },
-                value=0
-            )
-
-        ])
-    ],
-        className="text-center")
-], style={'box-shadow': '15px 17px 34px -1px rgba(189,183,189,1)',
-          'max-width': '800px'})
 
 # dash constructor
-app = dash.Dash(__name__, external_stylesheets=[dbc.themes.SPACELAB], assets_folder='assets', include_assets_files=True)
+app = dash.Dash(__name__, external_stylesheets=[dbc.themes.MINTY], assets_folder='assets', include_assets_files=True)
 # dash layout
 app.layout = html.Div([navbar, body])
 

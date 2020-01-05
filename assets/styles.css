@@ -2,3 +2,10 @@ circle {
     stroke-width: 15px;
 
 }
+body {
+  background: url(/assets/bgrnd_image3.jpg) no-repeat center center fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  background-size: cover;
+  -o-background-size: cover;
+}
